@@ -29,34 +29,34 @@
     <div class="row">
       <div class="form-group col-sm-12 col-md-6">
         <label for="tel">Numéro de téléphone</label>
-        <input id="tel" x-model="tel" @keyup="normalisePhone()" @change="normalisePhone()" type="text" class="form-control" aria-label="Numéro de téléphone">
+        <input id="tel" x-model="tel" type="text" class="form-control" aria-label="Numéro de téléphone">
       </div>
       <div class="form-group col-sm-12 col-md-6">
         <label for="rio">RIO</label>
-        <input id="rio" x-model="rio" @keyup="fromRIO()" @change="fromRIO()" type="text" class="form-control" placeholder="OOQRRRRRRCCC" aria-label="RIO">
+        <input id="rio" x-model="rio" type="text" class="form-control" placeholder="OOQRRRRRRCCC" aria-label="RIO">
       </div>
     </div>
     <!-- ----------- messages d'erreur -------------- -->
     <div x-show="rio && !tel" class="alert alert-warning" role="alert">
       Pour pouvoir validé le code RIO il faut renseigner également le numéro de téléphone.
     </div>
-    <div x-show="tel && !okTel()" class="alert alert-warning" role="alert">
+    <div x-show="tel && !okTel" class="alert alert-warning" role="alert">
       Le numéro de téléphone doit comporter 10 chiffres.
     </div>
-    <div x-show="rio && !okRio()" class="alert alert-warning" role="alert">
+    <div x-show="rio && !okRio" class="alert alert-warning" role="alert">
       Le code RIO doit comporter <b>12 caractères</b> parmi les lettres (majuscules) <code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>, les chiffres <code>0123456789</code> et le symbole <code>+</code>. Les espaces sont ignorées.
     </div>
-    <div x-show="okTel() && okRio()">
-      <div x-show="ccc && ccc != abc()" class="alert alert-danger" role="alert">
+    <div x-show="okTel && okRio && ccc">
+      <div x-show="ccc != abc" class="alert alert-danger" role="alert">
         <b>Le code RIO n'est pas valable !</b>
         <div>
-          Le code de contrôle <b x-text="ccc"></b> ne correspond pas au code calculé <b x-text="abc()"></b>.
+          Le code de contrôle <b x-text="ccc"></b> ne correspond pas au code calculé <b x-text="abc"></b>.
         </div>
       </div>
-      <div x-show="ccc && ccc == abc()" class="alert alert-success" role="alert">
+      <div x-show="ccc == abc" class="alert alert-success" role="alert">
         <b>Le code RIO est valable.</b>
         <div>
-          Car le code de contrôle <b x-text="ccc"></b> correspond bien au code calculé <b x-text="abc()"></b>.
+          Car le code de contrôle <b x-text="ccc"></b> correspond bien au code calculé <b x-text="abc"></b>.
         </div>
       </div>
     </div>
@@ -75,14 +75,14 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-6">
           <label for="oo">Identifiant opérateur (OO)</label>
-          <input id="oo" x-model="oo" @keyup="toRIO()" type="text" class="form-control" aria-label="OO" maxlength="2">
+          <input id="oo" x-model="oo" type="text" class="form-control" aria-label="OO" maxlength="2">
         </div>
         <div class="col-sm-12  col-md-6">
           <div x-show="oo" class="help">
             Les deux premiers caractères du code RIO identifient&nbsp;:
             <ul>
-              <li x-show="type()">Le type de numéro: <b x-text="type()"></b>.</li>
-              <li x-show="operateur">L'opérateur téléphonique: <b x-text="operateur()"></b>.</li>
+              <li x-show="type">Le type de numéro: <b x-text="type"></b>.</li>
+              <li x-show="operateur">L'opérateur téléphonique: <b x-text="operateur"></b>.</li>
             </ul>
           </div>
         </div>
@@ -92,13 +92,13 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-6">
           <label for="q">Type de contrat (Q)</label>
-          <input id="q" x-model="q" @keyup="toRIO()" type="text" class="form-control" aria-label="Q" maxlength="1">
+          <input id="q" x-model="q" type="text" class="form-control" aria-label="Q" maxlength="1">
         </div>
         <div class="col-sm-12  col-md-6">
           <div x-show="q" class="help">
             Le troisième caractère du code RIO identifie&nbsp;:
             <ul>
-              <li x-show="q">Le type de contrat: <b x-text="qtype()"></b>.</li>
+              <li x-show="q">Le type de contrat: <b x-text="qtype"></b>.</li>
             </ul>
           </div>
         </div>
@@ -108,7 +108,7 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-6">
           <label for="rrrrrr">Numéro de contrat (RRRRRR)</label>
-          <input id="rrrrrr" x-model="rrrrrr" @keyup="toRIO()" type="text" class="form-control" aria-label="RRRRRR" maxlength="6">
+          <input id="rrrrrr" x-model="rrrrrr" type="text" class="form-control" aria-label="RRRRRR" maxlength="6">
         </div>
         <div class="col-sm-12  col-md-6">
           <div x-show="rrrrrr" class="help">
@@ -121,19 +121,19 @@
       <div class="row">
         <div class="form-group col-sm-12 col-md-6">
           <label for="ccc">Code de contrôle (CCC)</label>
-          <input id="ccc" x-model="ccc" @keyup="toRIO()" type="text" class="form-control" aria-label="CCC" maxlength="3">
+          <input id="ccc" x-model="ccc" type="text" class="form-control" aria-label="CCC" maxlength="3">
         </div>
         <div class="col-sm-12  col-md-6">
           <div x-show="ccc" class="help">
             Les 3 derniers caractères du code RIO correspondent à une somme de contrôle. Ce code est calulé à partir du numéro de téléphone et des 9 premiers caractères du code RIO attachés.
             <span x-show="riotel">
-              Ainsi le code de contrôle est calculé à partir de <b x-text="riotel()"></b>.
+              Ainsi le code de contrôle est calculé à partir de <b x-text="riotel"></b>.
             </span>
-            <div x-show="ccc && ccc != abc()" class="alert alert-danger" role="alert">
-              Ici le code <b x-text="ccc"></b> ne correspond pas au code calculé <b x-text="abc()"></b>!
+            <div x-show="ccc && ccc != abc" class="alert alert-danger" role="alert">
+              Ici le code <b x-text="ccc"></b> ne correspond pas au code calculé <b x-text="abc"></b>!
             </div>
-            <div x-show="ccc && ccc == abc()" class="alert alert-success" role="alert">
-              Ici le code <span x-text="ccc"></span> correspond bien au code calculé <b x-text="abc()"></b>.
+            <div x-show="ccc && ccc == abc" class="alert alert-success" role="alert">
+              Ici le code <span x-text="ccc"></span> correspond bien au code calculé <b x-text="abc"></b>.
             </div>
           </div>
         </div>
